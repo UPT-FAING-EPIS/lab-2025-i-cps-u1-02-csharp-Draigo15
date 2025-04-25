@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Run tests
-        run: dotnet test ./Bank.WebApi.Tests/Bank.WebApi.Tests.csproj
+        run: dotnet test Bank.sln
 
       - name: Crear paquete NuGet
         run: dotnet pack ./Bank.WebApi/Bank.WebApi.csproj -c Release -o out
