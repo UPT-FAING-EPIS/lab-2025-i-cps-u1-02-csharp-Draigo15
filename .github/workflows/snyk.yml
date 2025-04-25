@@ -1,0 +1,34 @@
+name: Snyk Analysis
+env:
+  DOTNET_VERSION: '8.x'                     # la versión de .NET
+on: push
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
+
+      - name: Run Snyk code analysis
+        run: snyk code test --sarif-file-output=snyk.sarif
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      # Instalar snyk-to-html
+      - name: Install snyk-to-html
+        run: npm install -g snyk-to-html
+
+      # Convertir el archivo SARIF a HTML
+      - name: Convert SARIF to HTML
+        run: snyk-to-html snyk.sarif -o snyk_report.html
+
