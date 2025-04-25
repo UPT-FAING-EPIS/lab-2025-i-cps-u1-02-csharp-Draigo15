@@ -1,0 +1,28 @@
+name: Package NuGet
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Run tests
+        run: dotnet test
+
+      - name: Crear paquete NuGet
+        run: dotnet pack ./Bank.Domain/Bank.Domain.csproj -c Release -o out
+
+      - name: Publicar paquete NuGet
+        run: dotnet nuget push out/*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}
