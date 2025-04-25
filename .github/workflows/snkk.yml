@@ -19,6 +19,10 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      
+      - name: Instalar snyk-to-html
+        run: npm install -g snyk-to-html
+
       - name: Generar reporte HTML de Snyk
         run: snyk code test --json | snyk-to-html -o code-test-results.html
         env:
