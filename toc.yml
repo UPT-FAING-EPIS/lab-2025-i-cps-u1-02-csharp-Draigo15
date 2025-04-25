@@ -1,0 +1,6 @@
+- name: Inicio
+  href: index.md
+- name: Diagrama de Clases
+  href: disenio.md
+- name: Reporte de Pruebas
+  href: Cobertura/SummaryGithub.md
